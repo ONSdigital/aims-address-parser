@@ -49,4 +49,31 @@ class HandlerAndRouterTest {
 			.jsonPath("$.postcodeIn").isNotEmpty()
 			.jsonPath("$.postcodeOut").isNotEmpty();
 	}
+	
+	@Test
+	void testParseAddressEmpty() {
+		client.get()
+			.uri(uriBuilder -> uriBuilder.path("/tokens")
+					.queryParam("address", "").build())
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectBody()
+			.consumeWith(response -> {
+				Assertions.assertThat(response.getResponseBody()).isNotNull();
+				Assertions.assertThat(new String (response.getResponseBody())).isEqualTo("No address parameter.");
+				logger.info(new String(response.getResponseBody()).toString());});
+	}
+	
+	@Test
+	void testParseAddressNull() {
+		client.get()
+			.uri("/tokens")
+			.exchange()
+			.expectStatus().isBadRequest()
+			.expectBody()
+			.consumeWith(response -> {
+				Assertions.assertThat(response.getResponseBody()).isNotNull();
+				Assertions.assertThat(new String (response.getResponseBody())).isEqualTo("No address parameter.");
+				logger.info(new String(response.getResponseBody()).toString());});
+	}
 }

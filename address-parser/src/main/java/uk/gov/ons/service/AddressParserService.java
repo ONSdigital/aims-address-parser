@@ -1,7 +1,5 @@
 package uk.gov.ons.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +21,10 @@ public class AddressParserService {
 		natif.loadModel(modelPath);		
 	}
 
-	public Optional<Tokens> parseAddress(String address) {
+	public Tokens parseAddress(String address) {
 		
-		if (address.isBlank())
-		{
-			return Optional.empty();
-		}
-
-		return Optional.of(new ObjectMapper()
-				.convertValue(JavaConverters.mapAsJavaMapConverter(new Parser(natif).parse(address)).asJava(), Tokens.class));
+		return new ObjectMapper()
+				.convertValue(JavaConverters.mapAsJavaMapConverter(new Parser(natif).parse(address)).asJava(), Tokens.class);
 	}
 
 }

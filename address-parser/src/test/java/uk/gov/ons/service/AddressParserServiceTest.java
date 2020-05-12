@@ -1,8 +1,7 @@
 package uk.gov.ons.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,7 @@ class AddressParserServiceTest {
 	@Test
 	void testTokeniser() {
 		
-		Optional<Tokens> tokens = service.parseAddress("Acme Flowers Ltd First And Second Floor Flat 39b Cranbrook Road Windleybury GU166DE");
+		Tokens tokens = service.parseAddress("Acme Flowers Ltd First And Second Floor Flat 39b Cranbrook Road Windleybury GU166DE");
 		
 		Tokens expected = new Tokens("ACME FLOWERS LTD", 
 									 null, 
@@ -44,7 +43,7 @@ class AddressParserServiceTest {
 									 "6DE", 
 									 "GU16");
 		
-		assertNotNull(tokens.get());
-		assertEquals(expected, tokens.get());
+		assertNotNull(tokens);
+		assertEquals(expected, tokens);
 	}
 }

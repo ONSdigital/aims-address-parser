@@ -29,10 +29,10 @@ public class AddressParserHandler {
 		}
 		
 		Mono<ServerResponse> noTokens = ServerResponse.noContent().build();
-		Optional<Tokens> tokens = service.parseAddress(address.orElse(""));
+		Tokens tokens = service.parseAddress(address.get());
 		
 	    return ServerResponse.ok().contentType(APPLICATION_JSON)
-	  	      .bodyValue(tokens.get()).switchIfEmpty(noTokens);
+	  	      .bodyValue(tokens).switchIfEmpty(noTokens);
 
 	  }
 }
