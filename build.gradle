@@ -18,7 +18,7 @@ dependencies {
 	implementation 'com.typesafe:config:1.4.0'
 	implementation 'org.apache.commons:commons-lang3:3.10'
 	implementation 'org.scala-lang:scala-library:2.12.6'
-	implementation(files("/libs/parsers.jar"))
+	implementation(files("libs/parsers.jar"))
 	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
