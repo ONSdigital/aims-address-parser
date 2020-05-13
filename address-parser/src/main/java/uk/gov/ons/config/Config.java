@@ -1,5 +1,9 @@
 package uk.gov.ons.config;
 
+import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_MAC;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,19 +20,32 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 	
-	private Logger logger = LoggerFactory.getLogger(Config.class);
-	
+	private Logger logger = LoggerFactory.getLogger(Config.class);	
 	ApplicationContext ctx;
 
 	@Autowired
 	public Config(ApplicationContext ctx) {
 
 		this.ctx = ctx;
+		String taggerLibrary; 
+		
+		if (IS_OS_WINDOWS) {
+			taggerLibrary = "libcrftagger.dll";
+		} else if (IS_OS_MAC) {
+			taggerLibrary = "libcrftagger.so";
+		} else if (IS_OS_LINUX) {
+			taggerLibrary = "libcrftagger-linux.so";
+		}
+		else {
+			taggerLibrary = "";
+			logger.error("tagger library failed to load. Is your OS supported? Supported OS (Linux, Windows and Mac)");
+	    	SpringApplication.exit(ctx, () -> 0);
+		}
 		
 		// Load the tagger file
 		Path taggerFile;
 	    
-	    try (InputStream in = Config.class.getClassLoader().getResourceAsStream("libcrftagger-linux.so");
+	    try (InputStream in = Config.class.getClassLoader().getResourceAsStream(taggerLibrary);
 	    	 OutputStream outputStream = Files.newOutputStream(taggerFile = Files.createTempFile("taggerFile", ""))) {
 	    	
 			byte[] buffer = new byte[1024];
