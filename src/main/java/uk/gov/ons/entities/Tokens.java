@@ -2,11 +2,8 @@ package uk.gov.ons.entities;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 
-@Getter(value = AccessLevel.NONE)
 public @Data class Tokens {
 
 	@JsonAlias({ "OrganisationName"})
