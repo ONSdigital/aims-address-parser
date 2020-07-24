@@ -1,6 +1,7 @@
 package uk.gov.ons.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import uk.gov.ons.addressIndex.parsers.Parser;
 import uk.gov.ons.entities.Tokens;
 
 @Service
+@DependsOn("config")
 public class AddressParserService {
 	
 	private CrfScalaJniImpl natif;
