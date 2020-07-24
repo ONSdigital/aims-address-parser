@@ -40,6 +40,7 @@ public class Config {
 			taggerLibrary = "libcrftagger.so";
 		} else if (IS_OS_LINUX) {
 			taggerLibrary = "libcrftagger-linux.so";
+			logger.info(String.format("Linux detected. Tagger library: %s", taggerLibrary));
 		}
 		else {
 			taggerLibrary = "";
