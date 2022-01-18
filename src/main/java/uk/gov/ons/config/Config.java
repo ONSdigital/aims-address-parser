@@ -77,6 +77,7 @@ public class Config {
 		try (InputStream in = Config.class.getClassLoader().getResourceAsStream("addressCRFA.crfsuite");
 			 OutputStream outputStream = Files.newOutputStream(crfsuiteFile = Files.createTempFile(tmpDir,"crfsuiteFile", ""))) {
 
+
 			byte[] buffer = new byte[1024];
 			int read = -1;
 
