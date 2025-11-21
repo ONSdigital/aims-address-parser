@@ -1,7 +1,7 @@
 name: Java CI with Gradle and Docker
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ 'master' ]
 env:
   IMAGE_NAME: 'address-index-parser'
   PROJECT_ID: 'ons-ci-aims'
