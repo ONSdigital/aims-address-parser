@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '3.4.2'
+	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id "io.freefair.lombok" version "8.12"
+	id "io.freefair.lombok" version "8.13.1"
 	id 'java'
 }
 
@@ -16,15 +16,19 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+    mockitoAgent
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'com.typesafe:config:1.4.3'
-	implementation 'javax.annotation:javax.annotation-api:1.3.2'
-	implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	implementation 'org.apache.commons:commons-lang3:3.18.0'
 	implementation 'org.scala-lang:scala-library:2.13.16'
 	implementation(files("libs/parsers.jar"))
-	implementation 'org.projectlombok:lombok:1.18.36'
+	implementation 'org.projectlombok:lombok:1.18.38'
 	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -32,8 +36,23 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	// Resolves the java.lang.NoClassDefFoundError: org/junit/platform/engine/EngineDiscoveryListener in Eclipse Version: 2020-03 (4.15.0)	
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
+    mockitoAgent 'org.mockito:mockito-core:5.20.0'
+}
+
+configurations.mockitoAgent {
+    transitive = false
 }
 
 test {
 	useJUnitPlatform()
+
+    doFirst {
+        jvmArgs("-javaagent:${configurations.mockitoAgent.singleFile}")
+    }
+
+    // listen to events in the test execution lifecycle
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
 }
