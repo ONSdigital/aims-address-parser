@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+// alternative import for Spring Boot 4.
+//import tools.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import scala.collection.JavaConverters;
@@ -24,8 +26,9 @@ public class AddressParserService {
 	}
 
 	public Tokens parseAddress(String address) {
-		
 		return new ObjectMapper()
+// alternative class for Spring Boot 4
+//		return new JsonMapper()
 				.convertValue(JavaConverters.mapAsJavaMapConverter(new Parser(natif).parse(address)).asJava(), Tokens.class);
 	}
 
